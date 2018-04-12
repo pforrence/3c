@@ -17,3 +17,4 @@ class Test2 {
         return y;
 
     }
+}
