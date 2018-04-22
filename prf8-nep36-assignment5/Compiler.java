@@ -117,7 +117,7 @@ public class Compiler {
                 String fileName = args[0].substring(0, args[0].lastIndexOf(".")) + ".asm";
                 
                 //Write MIPS
-                CodeGeneration gen = new CodeGeneration(IRList, labels, allocator, symTable, fileName);
+                CodeGeneration gen = new CodeGeneration(IRList, labels, allocator, symTable, fileName, IRVisit);
                 gen.generateMIPS();
                 
                 

@@ -11,7 +11,7 @@ class Test5
         int i;
         int count;
         i = 9;
-        if(i == 9)
+        if(i < 9)
         {
             System.out.println(9);
         }

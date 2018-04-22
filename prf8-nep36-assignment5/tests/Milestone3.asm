@@ -44,7 +44,7 @@ sw $v0, 4($sp)
 sw $v1, 0($sp)
 li $a0, 9
 move $a1, $t0
-jal Start
+jal L1
 lw $t9, 8($sp)
 lw $t8, 12($sp)
 lw $t7, 16($sp)

@@ -12,14 +12,16 @@ public class CodeGeneration
     private Hashtable<Quadruple, List<Label>> labels;
     private RegisterAllocator allocator;
     private SymbolTable symbolTable;
+    IRVisitor IRVisit;
     
-    public CodeGeneration(List<Quadruple> list, Hashtable<Quadruple, List<Label>> label, RegisterAllocator alloc, Scope symTable, String fileName)
+    public CodeGeneration(List<Quadruple> list, Hashtable<Quadruple, List<Label>> label, RegisterAllocator alloc, Scope symTable, String fileName, IRVisitor vi)
     {
         IRList = list;
         output = fileName;
         labels = label;
         allocator = alloc;
         symbolTable = (SymbolTable)symTable;
+        IRVisit = vi;
     }
     
     //Helper function to get size of a class (in bytes)
@@ -1371,15 +1373,17 @@ public class CodeGeneration
             CallQuad instruction = (CallQuad)IRList.get(index);
             int paramCount = Integer.parseInt((String)instruction.getArg1());
             String function = (String)instruction.getOp();
+            //function = (String)(IRVisit.getWorkList()).get(tempor);
             
             //Handle System.exit (no need to worry about params nor registers)
+            System.out.println("labels: " + function);
+            System.out.println("index: " + index);
             if(function.equals("_system_exit"))
             {
                 String temp = "jal " + function + "\n";
                 bw.write(temp, 0, temp.length());
                 return;
             }
-            
             //Store $ra on stack
             String temp = "addi $sp, $sp, -100\n";  //Make enough space on stack to save all reg
             bw.write(temp, 0, temp.length());
@@ -1485,9 +1489,13 @@ public class CodeGeneration
             }
             
             //Jump to the function
+            function = (String)(IRVisit.getWorkList()).get(function);
+            System.out.println("function: " +function);
+            if(function==null) {
+                function = (String)instruction.getOp();
+            }
             temp = "jal " + function + "\n";
             bw.write(temp, 0, temp.length());
-            
             //Restore $t0-$t9 from the stack
             for(int i = 9; i >= 0; i--)
             {
