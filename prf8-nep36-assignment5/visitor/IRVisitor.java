@@ -28,6 +28,7 @@ public class IRVisitor implements Visitor {
   }
     public Hashtable<Quadruple, List<Label>> getLabels()
     {
+      System.out.println(labels);
         return labels;
     }
     
@@ -44,6 +45,7 @@ public class IRVisitor implements Visitor {
     //Helper function to add a new Label to a certain IR
     public String addLabel(Quadruple q, boolean printBefore)
     {
+        System.out.println("oh yeah called1");
         List<Label> temp = labels.get(q);
         
         if(temp == null)
@@ -61,11 +63,13 @@ public class IRVisitor implements Visitor {
     
     public String addLabel(Quadruple q, Label l)
     {
+        System.out.println("oh yeah called2");
+
         List<Label> temp = labels.get(q);
         
         if(temp == null)
         {
-            temp = new ArrayList<Label>();
+          temp = new ArrayList<Label>();
         }
         
         temp.add(l);
@@ -223,6 +227,7 @@ public class IRVisitor implements Visitor {
 
     n.e.accept(this);
     IR.add(new ReturnQuad(n.e.getVar()));
+    workList.put(n.i.toString(), addLabel(IR.get(IR.size()), true));
 
     // System.out.println(";");
     // System.out.print("  }");
