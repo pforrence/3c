@@ -56,7 +56,7 @@ public class Compiler {
                 
                 //program.accept(new IRVisitor(symboltable));
                 //program.accept(new IRVisitor());
-               IRVisitor IRVisit = new IRVisitor(symbolTable);
+                IRVisitor IRVisit = new IRVisitor(symbolTable);
                 IRVisit.visit(program);
                 //System.out.println("Three Address Code: ");
                 //program.accept(IRVisit);
@@ -65,7 +65,12 @@ public class Compiler {
                 ((IRVisitor)IRVisit).reset();*/
                 
                 List<Quadruple> IRList = IRVisit.getIR();
+                System.out.println("IR: " + IRList);
+
                 Hashtable<Quadruple, List<Label>> labels = IRVisit.getLabels();
+                System.out.println("Initial labels: " + labels);
+                System.out.println();
+                System.out.println();
                 HashMap<String, String> workList = IRVisit.getWorkList();
                 
                 //Temporary reg allocation
@@ -96,7 +101,7 @@ public class Compiler {
                 //backPatch.patch();
                 
                 //Allocate Registers - Not complete (Inteferences are buggy and no coloring/allocation yet)
-                AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList,labels);
+                AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList, labels);
                 List<List<Node>> func = asmFG.buildCFG();
                 for (int i = 0; i < func.size(); i++)
                 {

@@ -71,14 +71,21 @@ public class AssemblyFlowGraph{
                 }
                 else{
                     List<String> strAux = n.nextLabel();
+                    System.out.println("n: " + n);
+                    System.out.println("strAux: "+strAux);
                     for (int j = 0; j < strAux.size(); j++) {
+                        System.out.println("j: "+ j);
                         if( (strAux.get(j)).equals("next")){
                             Node aux = graph.get(i+1);
                             n.addNext(aux);
-                            
                         }
                         else{
+                            System.out.println("get j " + strAux.get(j));
+                            System.out.println("here");
+                            System.out.println(labelNode);
+
                             int numLabel = labelNode.get(strAux.get(j));
+                            System.out.println("here");
                             n.addNext(graph.get(numLabel));
                         }
                         
@@ -91,14 +98,22 @@ public class AssemblyFlowGraph{
         return func;
     }
     public void buildNodes(){
+        System.out.println("beginning: " + labelNode);
+
         Node n = null;
         Node aux = null;
+        System.out.println("instr.size(): " + instr.size());
+
         for (int i = 0; i < instr.size(); i++) {
             Quadruple q = instr.get(i);
+            System.out.println("labels"+labels);
+
             List<Label> labelList = labels.get(q);
             //first node
             n = new Node(q,i);
+
             if(labelList!=null){
+                System.out.println("me");
                 for (Label l : labelList) {
                     if(l.printBefore){
                         //save label and its number
@@ -111,6 +126,9 @@ public class AssemblyFlowGraph{
                 }
                 
             }
+            else
+                System.out.println("hesdfre");
+
             
             if(q instanceof UAssignmentQuad){
                 if(q.getOp()==null){
@@ -150,6 +168,8 @@ public class AssemblyFlowGraph{
             }
             graph.add(n);
         }
+        System.out.println("end: " + labelNode);
+
     }
     public void printGraph(List<Node> graph){
         System.out.println("New Function");
