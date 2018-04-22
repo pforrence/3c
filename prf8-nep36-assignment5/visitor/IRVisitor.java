@@ -54,7 +54,10 @@ public class IRVisitor implements Visitor {
         }
         
         Label l = new Label(printBefore);
-        
+        System.out.println(temp);
+        System.out.println(q);
+        System.out.println(l);
+
         temp.add(l);
         labels.put(q, temp);
         
@@ -129,7 +132,7 @@ public class IRVisitor implements Visitor {
     symtable = symtable.exitScope();
 
     //FIXME: call to exit
-    IR.add(new CallQuad("_system_exit", "0"));
+    IR.add(new CallQuad("_system_exit", "0", null));
 
   }
 
@@ -188,7 +191,7 @@ public class IRVisitor implements Visitor {
   // Type t;
   // Identifier i;
   public void visit(VarDecl n) {
-    //IR.add(new NewQuad(n.t.toString(), n.i.toString()));
+    IR.add(new NewQuad(n.t.toString(), n.i.toString()));
     n.t.accept(this);
     //System.out.print(" ");
     n.i.accept(this);
@@ -327,7 +330,7 @@ public class IRVisitor implements Visitor {
     n.e.accept(this);
     //System.out.print(");");
     IR.add(new ParamQuad(n.e.getVar()));
-    IR.add(new CallQuad("_system_out_println", "1"));
+    IR.add(new CallQuad("_system_out_println", "1", null));
   }
   
   // Identifier i;
@@ -440,7 +443,7 @@ public class IRVisitor implements Visitor {
     IR.add(new ParamQuad(n.e.getVar()));
     i++;
     //System.out.print(")");
-    IR.add(new CallQuad(n.i.toString(), Integer.toString(i)));
+    IR.add(new CallQuad(n.i.toString(), Integer.toString(i), n.getVar()));
   }
 
   // int i;

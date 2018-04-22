@@ -42,7 +42,7 @@ sw $t8, 12($sp)
 sw $t9, 8($sp)
 sw $v0, 4($sp)
 sw $v1, 0($sp)
-li $a0, 9
+li $a0, 0
 move $a1, $t0
 jal Start
 lw $t9, 8($sp)

@@ -1101,7 +1101,7 @@ public class CodeGeneration
     {
         try
         {
-            Variable arg1 = (Variable)instruction.getArg1();
+            Variable arg1 = (Variable)instruction.getOp();
             String temp = "";
             
             if(arg1.getType().equals("constant"))
@@ -1116,6 +1116,7 @@ public class CodeGeneration
             {
                 if(arg1.getOffset() == -1)
                 {
+                    System.out.println("ME");
                     temp = "move $v0, " + arg1.getRegister() + "\n";
                 }
                 else //Class variable
@@ -1429,9 +1430,9 @@ public class CodeGeneration
                 
 
                 Variable arg1 = (Variable)param.getArg1();
-                System.out.println("type: "+ arg1);
-
+                System.out.println("param: "+ arg1);
                 System.out.println("type: "+ arg1.getType());
+
                 if(arg1.getType().equals("constant"))
                 {
                     temp = "li " + reg + ", " + arg1.getName() + "\n";

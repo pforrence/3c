@@ -13,11 +13,5 @@ class Test2 {
     public int Start(int y) {
 
         return y;
-
-    }
-    public boolean Start1(boolean z) {
-
-        return z;
-
     }
 }

@@ -1,20 +1,31 @@
 class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {        System.out.println(9);    }
 
-        int i = 9;
-        if(i == 9) {
-            System.out.println("yes");
-        }else {
-            System.out.println("no");
+}
+class Test5
+{
+        public int test5()
+        {
+        int i;
+        int count;
+        i = 9;
+        if(i == 9)
+        {
+            System.out.println(9);
+        }
+        else 
+        {
+            System.out.println(0);
         }
         
-        int count = 0;
+        
+        count = 0;
         while(count < i) {
-            count++;
-            System.out.println(count);
+            count = count+1;
+            System.out.println(1);
         }
-
+        return 0;
     }
-
 }
