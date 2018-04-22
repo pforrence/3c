@@ -28,7 +28,7 @@ public class IRVisitor implements Visitor {
   }
     public Hashtable<Quadruple, List<Label>> getLabels()
     {
-      System.out.println(labels);
+        System.out.println(labels);
         return labels;
     }
     
@@ -111,7 +111,10 @@ public class IRVisitor implements Visitor {
     //System.out.print("class ");
     n.i1.accept(this); //classname
     //System.out.println(" {");
-    IR.add(new LabelQuad((Object)"main"));
+    LabelQuad label1 = new LabelQuad((Object)"main");
+    IR.add(label1);
+    Label L1 = new Label(true);
+    addLabel(label1, L1);
     //System.out.print("  public static void main (String [] ");
     //System.out.print("param ");
     n.i2.accept(this); //argument list name (String [] il2)

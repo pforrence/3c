@@ -71,8 +71,10 @@ public class AssemblyFlowGraph{
                 }
                 else{
                     List<String> strAux = n.nextLabel();
-                    System.out.println("n: " + n);
+                    //System.out.println("n: " + n);
                     System.out.println("strAux: "+strAux);
+                    System.out.println("strAux.size() : "+strAux.size());
+
                     for (int j = 0; j < strAux.size(); j++) {
                         System.out.println("j: "+ j);
                         if( (strAux.get(j)).equals("next")){
@@ -80,11 +82,11 @@ public class AssemblyFlowGraph{
                             n.addNext(aux);
                         }
                         else{
-                            System.out.println("get j " + strAux.get(j));
+                            System.out.println("get j " + (Integer.parseInt(strAux.get(j))-1));
                             System.out.println("here");
                             System.out.println(labelNode);
 
-                            int numLabel = labelNode.get(strAux.get(j));
+                            int numLabel = labelNode.get(Integer.parseInt(strAux.get(j))-1);
                             System.out.println("here");
                             n.addNext(graph.get(numLabel));
                         }
