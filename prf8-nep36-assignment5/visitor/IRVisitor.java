@@ -188,7 +188,7 @@ public class IRVisitor implements Visitor {
   // Type t;
   // Identifier i;
   public void visit(VarDecl n) {
-    IR.add(new NewQuad(n.t.toString(), n.i.toString()));
+    //IR.add(new NewQuad(n.t.toString(), n.i.toString()));
     n.t.accept(this);
     //System.out.print(" ");
     n.i.accept(this);

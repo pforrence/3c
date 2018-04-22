@@ -148,7 +148,7 @@ public class CodeGeneration
             //        $v0 - On return, holds the memory address (with address 0 holding the 4 byte length)
             
             String className = (String)instruction.getArg1();
-            Variable result = (Variable)instruction.getResult();
+            Variable result = (Variable)instruction.getOp();
             
             ClassSymbolTable cst = symbolTable.getClass(className);
             int classSize = cst.getSize(); //Get size of class in bytes
@@ -192,7 +192,6 @@ public class CodeGeneration
             //Restore $a0 from the stack
             temp = "lw $a0, 12($sp)\n";
             bw.write(temp, 0, temp.length());
-            
             if(result.getType().equals("temp"))
             {
                 temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";
@@ -1513,7 +1512,7 @@ public class CodeGeneration
             if(!function.equals("_system_out_println"))  //println is the only 'void' function in minijava
             {
                 Variable result = (Variable)instruction.getResult();
-                
+                System.out.println("result: "+result);
                 if(result.getType().equals("temp"))
                 {
                     temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";

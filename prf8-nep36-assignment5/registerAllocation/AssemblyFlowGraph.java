@@ -88,8 +88,9 @@ public class AssemblyFlowGraph{
 
                             System.out.println("get:" + strAux.get(j));
                             System.out.println("LabelNode:" + labelNode);
-
-                            int numLabel = labelNode.get(strAux.get(j));
+                            String a = "L" + j;
+                            System.out.println("give it a shot: "+labelNode.get(a));
+                            int numLabel = labelNode.get(a);
                             //System.out.println("here");
                             n.addNext(graph.get(numLabel));
                         }
