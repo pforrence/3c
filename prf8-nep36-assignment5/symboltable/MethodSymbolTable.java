@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.ArrayList;
+import registerAllocation.*;
 
 public class MethodSymbolTable extends BlockSymbolTable implements Scope
 {
@@ -63,6 +64,17 @@ public class MethodSymbolTable extends BlockSymbolTable implements Scope
             return var;
         else
             return args.get(name);
+    }
+    
+    public void assignRegisters(RegisterAllocator allocator)
+    {
+        List<String> keys = Helper.keysToSortedList(vars.keySet());
+        
+        for(int i = 0; i < keys.size(); i++)
+        {
+            Variable v = vars.get(keys.get(i));
+            v.setRegister(allocator.allocateReg());
+        }
     }
     
 }
