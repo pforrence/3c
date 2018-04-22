@@ -112,7 +112,7 @@ public class AssemblyFlowGraph{
                 
             }
             
-            if(q instanceof UnaryAssignmentIR){
+            if(q instanceof UAssignmentQuad){
                 if(q.getOp()==null){
                     Variable arg1 = (Variable) q.getArg1();
                     Variable arg2 = (Variable) q.getArg2();
@@ -121,22 +121,22 @@ public class AssemblyFlowGraph{
                     }
                 }
             }
-            if(q instanceof ConditionalJumpIR ){
+            if(q instanceof CondJumpQuad ){
                 String nameLabel = ((Label)q.getResult()).getName();
                 //iffalse
                 n.addJumpTo(nameLabel);
                 //if true
                 n.addJumpTo("next");
             }
-            if(q instanceof UnconditionalJumpIR){
+            if(q instanceof UCondJumpQuad){
                 String nameLabel = ((Label)q.getResult()).getName();
                 
                 n.addJumpTo(nameLabel);
             }
-            if(q instanceof ReturnIR){
+            if(q instanceof ReturnQuad){
                 n.setExitFunction();
             }
-            if(q instanceof CallIR){
+            if(q instanceof CallQuad){
                 String arg1 = (String)q.getArg1();
                 if(!arg1.equals("_system_out_println") && !arg1.equals("_system_exit")){
                     n.addJumpTo(arg1);

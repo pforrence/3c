@@ -2,29 +2,91 @@ package visitor;
 
 import syntaxtree.*;
 import symboltable.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class IRVisitor implements Visitor {
   //public int tempcounter = 0;
   public Scope symtable;
-  public int blockcounter = 0;
+  //public int blockcounter = 0;
   //public int labelcounter = 0;
   //public int tempcounter = 0;
-  public int whilecounter = 0;
-  public int ifcounter = 0;
-  public ArrayList<Quadruple> IR = new ArrayList<Quadruple>();
+  //public int whilecounter = 0;
+  //public int ifcounter = 0;
+  //public ArrayList<Quadruple> IR = new ArrayList<Quadruple>();
+  private int blockNumber;
+  private List<Quadruple> IR;
+  private Hashtable<Quadruple, List<Label>> labels;
+  private HashMap<String, String> workList;
   
   public IRVisitor(Scope st)
   {
-    symtable = st;
+      labels = new Hashtable<Quadruple, List<Label>>();
+      IR = new ArrayList<Quadruple>();
+      workList = new HashMap<String, String>();
+      symtable = st;
+      blockNumber = 0;
   }
-  public void reset() {
+    public Hashtable<Quadruple, List<Label>> getLabels()
+    {
+        return labels;
+    }
+    
+    public HashMap<String, String> getWorkList()
+    {
+        return workList;
+    }
+    
+    public List<Quadruple> getIR()
+    {
+        return IR;
+    }
+    
+    //Helper function to add a new Label to a certain IR
+    public String addLabel(Quadruple q, boolean printBefore)
+    {
+        List<Label> temp = labels.get(q);
+        
+        if(temp == null)
+        {
+            temp = new ArrayList<Label>();
+        }
+        
+        Label l = new Label(printBefore);
+        
+        temp.add(l);
+        labels.put(q, temp);
+        
+        return l.getName();
+    }
+    
+    public String addLabel(Quadruple q, Label l)
+    {
+        List<Label> temp = labels.get(q);
+        
+        if(temp == null)
+        {
+            temp = new ArrayList<Label>();
+        }
+        
+        temp.add(l);
+        labels.put(q, temp);
+        
+        return l.getName();
+    }
+    
+    //Helper function to create unique numbers (as strings) for the blocks
+    public String nextBlockNumber()
+    {
+        blockNumber++;
+        return ("" + blockNumber);
+    }
+  /*public void reset() {
       IR = new ArrayList<Quadruple>();
       blockcounter = 0;
       //tempcounter = 0;
       whilecounter = 0;
       ifcounter = 0;
-  }
+  }*/
   // MainClass m;
   // ClassDeclList cl;
   public void visit(Program n) {
@@ -194,58 +256,56 @@ public class IRVisitor implements Visitor {
 
   // StatementList sl;
   public void visit(Block n) {
-    //System.out.println("{ ");
-    blockcounter++;
-    symtable = symtable.enterScope(Integer.toString(blockcounter));
-    for ( int i = 0; i < n.sl.size(); i++ ) {
-        //System.out.print("      ");
-        n.sl.elementAt(i).accept(this);
-        //System.out.println();
-    }
-    //System.out.print("    } ");
-    symtable = symtable.exitScope();
+      String blockNum = nextBlockNumber();
+      symtable = symtable.enterScope(blockNum); //Enter block
+      
+      for ( int i = 0; i < n.sl.size(); i++ )
+      {
+          n.sl.elementAt(i).accept(this);
+      }
+      
+      symtable = symtable.exitScope(); //Exit block
   }
 
   // Exp e;
   // Statement s1,s2;
   public void visit(If n) {
-    int local = ifcounter++;
-    String if_label = "ifbreak" + local;
-    String else_label = "else" + local;
-
-    //System.out.print("if (");
-    n.e.accept(this);
-    IR.add(new CondJumpQuad(n.e.getVar(), else_label));
-
-    //System.out.println(") ");
-    //System.out.print("    ");
-    n.s1.accept(this);
-    IR.add(new UCondJumpQuad((Object)(if_label)));
-    IR.add(new LabelQuad((Object)(else_label)));
-
-    //System.out.println();
-    //System.out.print("    else ");
-    n.s2.accept(this);
-    IR.add(new LabelQuad((Object)(if_label)));
+      Label L1 = new Label(true);
+      Label L2 = new Label(false);
+      
+      n.e.accept(this);
+      
+      IR.add(new CondJumpQuad(n.e.getVar(), L1));
+      
+      n.s1.accept(this);
+      IR.add(new UCondJumpQuad(L2));
+      
+      int size = IR.size();
+      
+      n.s2.accept(this);
+      
+      addLabel(IR.get(size), L1);
+      addLabel(IR.get(IR.size()-1), L2);
 
   }
 
   // Exp e;
   // Statement s;
   public void visit(While n) {
-    String while_label = "while" + whilecounter++;
-    String break_while_label = "break" + while_label;
-
-
-    IR.add(new LabelQuad((Object)(while_label)));
-    //System.out.print("while (");
-    n.e.accept(this);
-    IR.add(new CondJumpQuad(n.e.getVar(), break_while_label));
-
-    //System.out.print(") ");
-    n.s.accept(this);
-    IR.add(new UCondJumpQuad((Object)(while_label)));
-    IR.add(new LabelQuad((Object)(break_while_label)));
+      Label L1 = new Label(false);
+      Label L2 = new Label(false);
+      
+      addLabel(IR.get(IR.size()-1), L1);
+      
+      n.e.accept(this);
+      
+      IR.add(new CondJumpQuad(n.e.getVar(), L2));
+      
+      n.s.accept(this);
+      
+      IR.add(new UCondJumpQuad(L1));
+      
+      addLabel(IR.get(IR.size()-1), L2);
 
   }
 

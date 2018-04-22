@@ -69,51 +69,47 @@ public class CodeGeneration
                     }
                 }
                 
-                if(q instanceof AssignmentIR)
+                if(q instanceof AssignmentQuad)
                 {
                     handleAssignment(q, bw);
                 }
-                else if(q instanceof CallIR)
+                else if(q instanceof CallQuad)
                 {
                     functionCall(IRList, i, bw);
                 }
-                else if(q instanceof ReturnIR)
+                else if(q instanceof ReturnQuad)
                 {
                     handleReturn(q, bw);
                 }
-                else if(q instanceof CopyIR)
+                else if(q instanceof CopyQuad)
                 {
                     handleCopy(q, bw);
                 }
-                else if(q instanceof UnaryAssignmentIR)
+                else if(q instanceof UAssignmentQuad)
                 {
                     handleUnaryAssignment(q, bw);
                 }
-                else if(q instanceof UnconditionalJumpIR)
+                else if(q instanceof UCondJumpQuad)
                 {
                     handleUnconditionalJump(q, bw);
                 }
-                else if(q instanceof ConditionalJumpIR)
+                else if(q instanceof CondJumpQuad)
                 {
                     handleConditionalJump(q, bw);
                 }
-                else if(q instanceof NewArrayIR)
+                else if(q instanceof NewArrayQuad)
                 {
                     handleNewArray(q, bw);
                 }
-                else if(q instanceof LengthIR)
+                else if(q instanceof LengthQuad)
                 {
                     handleArrayLength(q, bw);
                 }
-                else if(q instanceof IndexedAssignmentIR1)
+                else if(q instanceof IAssignmentQuad)
                 {
                     handleArrayIndex(q, bw);
                 }
-                else if(q instanceof IndexedAssignmentIR2)
-                {
-                    handleArrayAssignment(q, bw);
-                }
-                else if(q instanceof NewIR)
+                else if(q instanceof NewQuad)
                 {
                     handleObjectCreation(q, bw);
                 }
@@ -1372,7 +1368,7 @@ public class CodeGeneration
     {
         try
         {
-            CallIR instruction = (CallIR)IRList.get(index);
+            CallQuad instruction = (CallQuad)IRList.get(index);
             int paramCount = Integer.parseInt((String)instruction.getArg2());
             String function = (String)instruction.getArg1();
             
@@ -1429,7 +1425,7 @@ public class CodeGeneration
             
             for(int i = 0; i < paramCount; i++)
             {
-                ParameterIR param = (ParameterIR)IRList.get(paramIndex+i);
+                ParamQuad param = (ParamQuad)IRList.get(paramIndex+i);
                 String reg = "$a" + i;
                 
                 Variable arg1 = (Variable)param.getArg1();

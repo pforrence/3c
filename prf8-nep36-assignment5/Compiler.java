@@ -1,15 +1,17 @@
-import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 import java.io.*;
 import java.util.*;
 import visitor.*;
 import syntaxtree.*;
 import symboltable.*;
+import registerAllocation.*;
+import endCode.*;
+import java.util.*;
 
 public class Compiler {
 	public static void main(String[] args) {
 		if(args.length != 1) {
 			System.err.println("ERROR: Invalid number of command line arguments.");
-			System.err.println("Usage: java Interpreter file.asm");
 			System.exit(1);
 		}
 		Symbol parse_tree = null;
@@ -54,12 +56,68 @@ public class Compiler {
                 
                 //program.accept(new IRVisitor(symboltable));
                 //program.accept(new IRVisitor());
-                Visitor IRVisit = new IRVisitor(symbolTable);
-                System.out.println("Three Address Code: ");
-                program.accept(IRVisit);
-                for(int i = 0; i < ((IRVisitor)IRVisit).IR.size(); i++)
+               IRVisitor IRVisit = new IRVisitor(symbolTable);
+                IRVisit.visit(program);
+                //System.out.println("Three Address Code: ");
+                //program.accept(IRVisit);
+                /*for(int i = 0; i < ((IRVisitor)IRVisit).IR.size(); i++)
                     System.out.println(((IRVisitor)IRVisit).IR.get(i));
-                ((IRVisitor)IRVisit).reset();
+                ((IRVisitor)IRVisit).reset();*/
+                
+                List<Quadruple> IRList = IRVisit.getIR();
+                Hashtable<Quadruple, List<Label>> labels = IRVisit.getLabels();
+                HashMap<String, String> workList = IRVisit.getWorkList();
+                
+                //Temporary reg allocation
+                RegisterAllocator allocator = new RegisterAllocator();
+                
+                SymbolTable symTable = (SymbolTable)symbolTable;
+                Hashtable <String, ClassSymbolTable> classes = symTable.getClasses();
+                List<String> keys = Helper.keysToSortedList(classes.keySet());;
+                
+                for(int i = 0; i < keys.size(); i++)     //Iterate over each class
+                {
+                    ClassSymbolTable classSymTable = classes.get(keys.get(i));
+                    classSymTable.calculateVarOffsets(); //Store variable offsets in the symbol table
+                    
+                    Hashtable<String, MethodSymbolTable> methods = classSymTable.getMethods();
+                    List<String> methodKeys = Helper.keysToSortedList(methods.keySet());
+                    
+                    for(int j = 0; j < methodKeys.size(); j++)
+                    {
+                        MethodSymbolTable methSymTable = methods.get(methodKeys.get(j));
+                        methSymTable.assignRegisters(allocator); //Temporary allocation to all method locals
+                    }
+                }
+                //End temp reg allocation
+                
+                //Backpatch the IR to resolve labels in jumps to methods
+                //BackPatcher backPatch = new BackPatcher(IRList, workList);
+                //backPatch.patch();
+                
+                //Allocate Registers - Not complete (Inteferences are buggy and no coloring/allocation yet)
+                AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList,labels);
+                List<List<Node>> func = asmFG.buildCFG();
+                for (int i = 0; i < func.size(); i++)
+                {
+                    Liveness liv = new Liveness(func.get(i));
+                    liv.calculateLive();
+                    List<BitSet> liveOut = liv.getLiveOut();
+                    InterferenceGraph iG = new InterferenceGraph(func.get(i),liveOut, liv.getAllVariables());
+                    //iG.buildInterferenceGraph();
+                }
+                
+                //Create output file
+                String fileName = args[0].substring(0, args[0].lastIndexOf(".")) + ".asm";
+                
+                //Write MIPS
+                CodeGeneration gen = new CodeGeneration(IRList, labels, allocator, symTable, fileName);
+                gen.generateMIPS();
+                
+                
+                //Link runtime.asm file
+                endCodeConcat linker = new endCodeConcat("linker/runtime.asm", fileName);
+                linker.concat();
                 
             }
 
