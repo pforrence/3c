@@ -128,6 +128,9 @@ public class IRVisitor implements Visitor {
     symtable = symtable.exitScope();
     symtable = symtable.exitScope();
 
+    //FIXME: call to exit
+    IR.add(new CallQuad("_system_exit", "0"));
+
   }
 
   // Identifier i;
@@ -229,8 +232,9 @@ public class IRVisitor implements Visitor {
     //System.out.print("    return ");
 
     n.e.accept(this);
+
     IR.add(new ReturnQuad(n.e.getVar()));
-    workList.put(n.i.toString(), addLabel(IR.get(IR.size()), true));
+    workList.put(n.i.toString(), addLabel(IR.get(IR.size()-1), true));
 
     // System.out.println(";");
     // System.out.print("  }");
@@ -323,7 +327,7 @@ public class IRVisitor implements Visitor {
     n.e.accept(this);
     //System.out.print(");");
     IR.add(new ParamQuad(n.e.getVar()));
-    IR.add(new CallQuad("print", "1"));
+    IR.add(new CallQuad("_system_out_println", "1"));
   }
   
   // Identifier i;

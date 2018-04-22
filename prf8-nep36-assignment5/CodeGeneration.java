@@ -193,7 +193,7 @@ public class CodeGeneration
             temp = "lw $a0, 12($sp)\n";
             bw.write(temp, 0, temp.length());
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";
             }
@@ -241,7 +241,7 @@ public class CodeGeneration
             String arg2Reg = "";
             
             //Handle arg2 -- Get the index and multiply by 4 (shift by 2) -- then add 4 (for length offset)
-            if(arg2.getType().equals("temporary"))
+            if(arg2.getType().equals("temp"))
             {
                 arg2Reg = allocator.allocateReg(arg2.getName());
                 
@@ -291,7 +291,7 @@ public class CodeGeneration
             }
             
             //Handle arg1 -- Address of array
-            if(arg1.getType().equals("temporary"))
+            if(arg1.getType().equals("temp"))
             {
                 temp = "add " + allocator.allocateReg(arg1.getName()) + ", " + allocator.allocateReg(arg1.getName()) + ", " + arg2Reg + "\n";
                 bw.write(temp, 0, temp.length());
@@ -320,7 +320,7 @@ public class CodeGeneration
             }
             
             //Load value at address from arg1 into result
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 if(arg2.getType().equals("constant"))
                 {
@@ -395,7 +395,7 @@ public class CodeGeneration
             bw.write(temp, 0, temp.length());
             
             //Subtract arg2 from arg1 to return it to the original value
-            if(arg1.getType().equals("temporary"))
+            if(arg1.getType().equals("temp"))
             {
                 temp = "sub " + arg1Reg + ", " + arg1Reg + ", " + arg2Reg + "\n";
                 bw.write(temp, 0, temp.length());
@@ -410,7 +410,7 @@ public class CodeGeneration
             }
             
             //Return arg2 to normal - Subtract 4 (for length) and then right shift by 2 (divide by 4)
-            if(arg2.getType().equals("temporary"))
+            if(arg2.getType().equals("temp"))
             {
                 temp = "addi " + arg2Reg + ", " + arg2Reg + ", -4\n";
                 bw.write(temp, 0, temp.length());
@@ -455,7 +455,7 @@ public class CodeGeneration
             String arg2Reg = "";
             
             //Handle arg2 -- Get the index and multiply by 4 (shift by 2) -- then add 4 (for length offset)
-            if(arg2.getType().equals("temporary"))
+            if(arg2.getType().equals("temp"))
             {
                 arg2Reg = allocator.allocateReg(arg2.getName());
                 
@@ -506,7 +506,7 @@ public class CodeGeneration
             }
             
             //Handle result -- Address of array
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 temp = "add " + allocator.allocateReg(result.getName()) + ", " + allocator.allocateReg(result.getName()) + ", " + arg2Reg + "\n";
                 bw.write(temp, 0, temp.length());
@@ -535,7 +535,7 @@ public class CodeGeneration
             }
             
             //Store value from arg1 result address
-            if(arg1.getType().equals("temporary"))
+            if(arg1.getType().equals("temp"))
             {
                 if(arg2.getType().equals("constant"))
                 {
@@ -636,7 +636,7 @@ public class CodeGeneration
             bw.write(temp, 0, temp.length());
             
             //Subtract arg2 from result to return it to the original value
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 temp = "sub " + resultReg + ", " + resultReg + ", " + arg2Reg + "\n";
                 bw.write(temp, 0, temp.length());
@@ -651,7 +651,7 @@ public class CodeGeneration
             }
             
             //Return arg2 to normal - Subtract 4 (for length) and then right shift by 2 (divide by 4)
-            if(arg2.getType().equals("temporary"))
+            if(arg2.getType().equals("temp"))
             {
                 temp = "addi " + arg2Reg + ", " + arg2Reg + ", -4\n";
                 bw.write(temp, 0, temp.length());
@@ -691,9 +691,9 @@ public class CodeGeneration
             Variable result = (Variable)instruction.getResult();
             String temp;
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
-                if(arg1.getType().equals("temporary"))
+                if(arg1.getType().equals("temp"))
                 {
                     temp = "lw " + allocator.allocateReg(result.getName()) + ", 0(" + allocator.allocateReg(arg1.getName()) + ")\n";
                 }
@@ -716,7 +716,7 @@ public class CodeGeneration
             {
                 if(result.getOffset() == -1)
                 {
-                    if(arg1.getType().equals("temporary"))
+                    if(arg1.getType().equals("temp"))
                     {
                         temp = "lw " + result.getRegister() + ", 0(" + allocator.allocateReg(arg1.getName()) + ")\n";
                     }
@@ -740,7 +740,7 @@ public class CodeGeneration
                     String resultReg = allocator.allocateTempReg(0);
                     String tempReg = allocator.allocateTempReg(1);
                     
-                    if(arg1.getType().equals("temporary"))
+                    if(arg1.getType().equals("temp"))
                     {
                         temp = "lw " + resultReg + ", 0(" + allocator.allocateReg(arg1.getName()) + ")\n";
                         bw.write(temp, 0, temp.length());
@@ -817,7 +817,7 @@ public class CodeGeneration
             {
                 temp = "li $a0, " + arg2.getName() + "\n";
             }
-            else if(arg2.getType().equals("temporary"))
+            else if(arg2.getType().equals("temp"))
             {
                 temp = "move $a0, " + allocator.allocateReg(arg2.getName()) + "\n";
             }
@@ -857,7 +857,7 @@ public class CodeGeneration
             temp = "lw $a0, 12($sp)\n";
             bw.write(temp, 0, temp.length());
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";
             }
@@ -908,7 +908,7 @@ public class CodeGeneration
                 
                 temp = "beq " + tempReg + ", $zero, " + label + "\n";
             }
-            else if(arg1.getType().equals("temporary"))
+            else if(arg1.getType().equals("temp"))
             {
                 temp = "beq " + allocator.allocateReg(arg1.getName()) + ", $zero, " + label + "\n";
             }
@@ -959,7 +959,7 @@ public class CodeGeneration
             String temp = "";
             String resultReg;
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 resultReg = allocator.allocateReg(result.getName());
             }
@@ -973,7 +973,7 @@ public class CodeGeneration
             {
                 temp = "li " + resultReg + ", " + arg1.getName() + "\n";
             }
-            else if(arg1.getType().equals("temporary"))
+            else if(arg1.getType().equals("temp"))
             {
                 temp = "move " + resultReg + ", " + allocator.allocateReg(arg1.getName()) + "\n";
             }
@@ -991,7 +991,7 @@ public class CodeGeneration
             
             bw.write(temp, 0, temp.length());
             
-            if(!result.getType().equals("temporary")) //Variable result
+            if(!result.getType().equals("temp")) //Variable result
             {
                 if(result.getOffset() == -1)
                 {
@@ -1020,7 +1020,7 @@ public class CodeGeneration
             String resultReg;
             String temp;
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 resultReg = allocator.allocateReg(result.getName());
             }
@@ -1034,7 +1034,7 @@ public class CodeGeneration
             {
                 temp = "li " + resultReg + ", " + arg1.getName() + "\n";
             }
-            else if(arg1.getType().equals("temporary"))
+            else if(arg1.getType().equals("temp"))
             {
                 temp = "move " + resultReg + ", " + allocator.allocateReg(arg1.getName()) + "\n";
             }
@@ -1079,7 +1079,7 @@ public class CodeGeneration
             
             bw.write(temp, 0, temp.length());
             
-            if(!result.getType().equals("temporary")) //Variable result
+            if(!result.getType().equals("temp")) //Variable result
             {
                 if(result.getOffset() == -1)
                 {
@@ -1109,7 +1109,7 @@ public class CodeGeneration
             {
                 temp = "li $v0, " + arg1.getName() + "\n";
             }
-            else if(arg1.getType().equals("temporary"))
+            else if(arg1.getType().equals("temp"))
             {
                 temp = "move $v0, " + allocator.allocateReg(arg1.getName()) + "\n";
             }
@@ -1148,7 +1148,7 @@ public class CodeGeneration
             String resultReg;
             int numTempRegs = 0;
             
-            if(result.getType().equals("temporary"))
+            if(result.getType().equals("temp"))
             {
                 resultReg = allocator.allocateReg(result.getName());
             }
@@ -1163,7 +1163,7 @@ public class CodeGeneration
             {
                 temp = "li " + resultReg + ", " + arg1.getName() + "\n";
             }
-            else if(arg1.getType().equals("temporary"))
+            else if(arg1.getType().equals("temp"))
             {
                 temp = "move " + resultReg + ", " + allocator.allocateReg(arg1.getName()) + "\n";
             }
@@ -1234,7 +1234,7 @@ public class CodeGeneration
                     temp = "andi " + resultReg + ", " + resultReg + ", " + arg2.getName() + "\n";
                 }
             }
-            else if(arg2.getType().equals("temporary"))
+            else if(arg2.getType().equals("temp"))
             {
                 if(op.equals("+"))
                 {
@@ -1344,7 +1344,7 @@ public class CodeGeneration
             
             bw.write(temp, 0, temp.length());
             
-            if(!result.getType().equals("temporary")) //Variable result
+            if(!result.getType().equals("temp")) //Variable result
             {
                 if(result.getOffset() == -1)
                 {
@@ -1369,8 +1369,8 @@ public class CodeGeneration
         try
         {
             CallQuad instruction = (CallQuad)IRList.get(index);
-            int paramCount = Integer.parseInt((String)instruction.getArg2());
-            String function = (String)instruction.getArg1();
+            int paramCount = Integer.parseInt((String)instruction.getArg1());
+            String function = (String)instruction.getOp();
             
             //Handle System.exit (no need to worry about params nor registers)
             if(function.equals("_system_exit"))
@@ -1428,13 +1428,16 @@ public class CodeGeneration
                 ParamQuad param = (ParamQuad)IRList.get(paramIndex+i);
                 String reg = "$a" + i;
                 
+
                 Variable arg1 = (Variable)param.getArg1();
-                
+                System.out.println("type: "+ arg1);
+
+                System.out.println("type: "+ arg1.getType());
                 if(arg1.getType().equals("constant"))
                 {
                     temp = "li " + reg + ", " + arg1.getName() + "\n";
                 }
-                else if(arg1.getType().equals("temporary"))
+                else if(arg1.getType().equals("temp"))
                 {
                     temp = "move " + reg + ", " + allocator.allocateReg(arg1.getName()) + "\n";
                 }
@@ -1443,6 +1446,7 @@ public class CodeGeneration
                     if(arg1.getOffset() == -1)
                     {
                         //Since are overwriting $aX registers, we need to get their old value off the stack if needed
+                        System.out.println("variable: "+ arg1);
                         if(arg1.getName().equals("this"))
                         {
                             temp = "lw " + reg + ", 60($sp)\n";
@@ -1510,7 +1514,7 @@ public class CodeGeneration
             {
                 Variable result = (Variable)instruction.getResult();
                 
-                if(result.getType().equals("temporary"))
+                if(result.getType().equals("temp"))
                 {
                     temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";
                 }

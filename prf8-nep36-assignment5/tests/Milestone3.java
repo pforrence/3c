@@ -15,5 +15,9 @@ class Test2 {
         return y;
 
     }
+    public boolean Start1(boolean z) {
 
+        return z;
+
+    }
 }

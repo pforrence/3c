@@ -19,7 +19,7 @@ public class IntegerLiteral extends Exp {
   }
   public Variable getVar()
   {
-    if (var == null) return new Variable(Integer.toString(i), "int");
+    if (var == null) return new Variable(Integer.toString(i), "constant");
     return var;
   }
 }
