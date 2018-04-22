@@ -39,6 +39,7 @@ public class AssemblyFlowGraph{
             
             
             if(isNewFunction){
+                System.out.println("here");
                 isNewFunction = false;
                 //add the actual CFG (actual function) in the List of Lists
                 func.add(auxList);
@@ -76,7 +77,7 @@ public class AssemblyFlowGraph{
                     System.out.println("strAux.size() : "+strAux.size());
                     System.out.println("strAux: "+strAux);
 
-                    for (int j = 0; j < strAux.size()-1; j++) {
+                    for (int j = 0; j < strAux.size(); j++) {
                         //System.out.println("j: "+ j);
                         if( (strAux.get(j)).equals("next")){
                             Node aux = graph.get(i+1);
@@ -85,9 +86,10 @@ public class AssemblyFlowGraph{
                         else{
                             //System.out.println("here");
 
-                            System.out.println(strAux.get(j));
+                            System.out.println("get:" + strAux.get(j));
+                            System.out.println("LabelNode:" + labelNode);
 
-                            int numLabel = labelNode.get("L"+strAux.get(j));
+                            int numLabel = labelNode.get(strAux.get(j));
                             //System.out.println("here");
                             n.addNext(graph.get(numLabel));
                         }

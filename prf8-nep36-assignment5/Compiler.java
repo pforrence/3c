@@ -103,6 +103,7 @@ public class Compiler {
                 //Allocate Registers - Not complete (Inteferences are buggy and no coloring/allocation yet)
                 AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList, labels);
                 List<List<Node>> func = asmFG.buildCFG();
+                System.out.println(func);
                 for (int i = 0; i < func.size(); i++)
                 {
                     Liveness liv = new Liveness(func.get(i));
@@ -121,7 +122,7 @@ public class Compiler {
                 
                 
                 //Link runtime.asm file
-                endCodeConcat linker = new endCodeConcat("linker/runtime.asm", fileName);
+                endCodeConcat linker = new endCodeConcat("endCode/runtime.asm", fileName);
                 linker.concat();
                 
             }
