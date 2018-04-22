@@ -18,3 +18,5 @@ clean:
 	$(RM) visitor/*.class
 	$(RM) registerAllocation/*.class
 	$(RM) endCode/*.class
+	$(RM) ExprLex.java
+	$(RM) ExprParser.java
