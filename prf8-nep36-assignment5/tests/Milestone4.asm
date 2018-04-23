@@ -12,7 +12,7 @@ jal _new_object
 lw $t1, 4($sp)
 lw $t0, 8($sp)
 lw $a0, 12($sp)
-move $t0, $v0
+move $t1, $v0
 lw $v0, 0($sp)
 lw $ra, 16($sp)
 addi $sp, $sp, 20
@@ -43,8 +43,8 @@ sw $t9, 8($sp)
 sw $v0, 4($sp)
 sw $v1, 0($sp)
 li $a0, 0
-move $a1, $t0
-jal Start
+move $a1, $t1
+jal L1
 lw $t9, 8($sp)
 lw $t8, 12($sp)
 lw $t7, 16($sp)
@@ -67,7 +67,7 @@ lw $s3, 80($sp)
 lw $s2, 84($sp)
 lw $s1, 88($sp)
 lw $s0, 92($sp)
-move $t1, $v0
+move $t2, $v0
 lw $v1, 0($sp)
 lw $v0, 4($sp)
 lw $ra, 96($sp)
@@ -98,7 +98,7 @@ sw $t8, 12($sp)
 sw $t9, 8($sp)
 sw $v0, 4($sp)
 sw $v1, 0($sp)
-move $a0, $t1
+move $a0, $t2
 jal _system_out_println
 lw $t9, 8($sp)
 lw $t8, 12($sp)
@@ -127,8 +127,10 @@ lw $v0, 4($sp)
 lw $ra, 96($sp)
 addi $sp, $sp, 100
 jal _system_exit
+li $t3, 0
+move $t0, $t3
 L1:
-move $v0, null
+move $v0, $a0
 jr $ra
 # main is testing the functions I've provided. You will include this code at the end
 # of your output file so that you may call these system services.

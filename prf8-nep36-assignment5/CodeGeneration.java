@@ -148,9 +148,12 @@ public class CodeGeneration
             //Notes:
             //        $a0 - Holds the number of bytes
             //        $v0 - On return, holds the memory address (with address 0 holding the 4 byte length)
-            
+            //System.out.println("getArg1: "+instruction.getArg1());
+            //System.out.println("getOp: "+instruction.getOp());
             String className = (String)instruction.getArg1();
             Variable result = (Variable)instruction.getOp();
+            //String className = (String)instruction.getOp();
+            //Variable result = (Variable)instruction.getArg1();
             
             ClassSymbolTable cst = symbolTable.getClass(className);
             int classSize = cst.getSize(); //Get size of class in bytes
@@ -955,8 +958,11 @@ public class CodeGeneration
     {
         try
         {
-            Variable result = (Variable)instruction.getResult();
-            Variable arg1 = (Variable)instruction.getArg1();
+            //Variable result = (Variable)instruction.getResult();
+            //Variable arg1 = (Variable)instruction.getArg1();
+            Variable result = (Variable)instruction.getArg1();
+            Variable arg1 = (Variable)instruction.getOp();
+            //String arg1 = (Variable)instruction.getOp();
             String temp = "";
             String resultReg;
             
