@@ -1180,7 +1180,15 @@ public class CodeGeneration
             {
                 if(arg1.getOffset() == -1)
                 {
-                    temp = "move " + resultReg + ", " + arg1.getRegister() + "\n";
+                    //System.out.println("here");
+                    //System.out.println(resultReg);
+                    //System.out.println(arg1.getName());
+                    if (arg1.getRegister() == null) {
+                        temp = "move " + resultReg + ", " + "$t0\n";
+                    }else {
+                        temp = "move " + resultReg + ", " + arg1.getRegister() + "\n";
+                    }
+                    //temp = "move " + resultReg + ", " + arg1.getRegister() + "\n";
                 }
                 else //Class variable
                 {
@@ -1220,6 +1228,9 @@ public class CodeGeneration
                     Label L2 = new Label(false);
                     
                     //If arg 1 < arg2, branch to L1 and store "1" inside resultReg
+                    System.out.println("here3");
+                    System.out.println(resultReg);
+                    //System.out.println(arg2.getName());
                     temp = "blt " + resultReg + ", " + arg2.getName() + ", " + L1.getName() + "\n";
                     bw.write(temp, 0, temp.length());
                     
@@ -1266,6 +1277,7 @@ public class CodeGeneration
                     Label L2 = new Label(false);
                     
                     //If arg 1 < arg2, branch to L1 and store "1" inside resultReg
+                    System.out.println("here1");
                     temp = "blt " + resultReg + ", " + allocator.allocateReg(arg2.getName()) + ", " + L1.getName() + "\n";
                     bw.write(temp, 0, temp.length());
                     
@@ -1327,7 +1339,13 @@ public class CodeGeneration
                     Label L2 = new Label(false);
                     
                     //If arg 1 < arg2, branch to L1 and store "1" inside resultReg
-                    temp = "blt " + resultReg + ", " + varReg + ", " + L1.getName() + "\n";
+                    System.out.println("here2");
+                    if(varReg == null) {
+                        temp = "blt " + resultReg + ", " + "$t0, " + L1.getName() + "\n";
+                    }else {
+                        temp = "blt " + resultReg + ", " + varReg + ", " + L1.getName() + "\n";
+                    }
+                    //temp = "blt " + resultReg + ", " + varReg + ", " + L1.getName() + "\n";
                     bw.write(temp, 0, temp.length());
                     
                     //Else fallthrough and store "0" inside resultReg

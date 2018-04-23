@@ -58,7 +58,7 @@ addi $sp, $sp, 100
 jal _system_exit
 li $t2, 9
 move $t1, $t2
-move $t2, null
+move $t2, $t0
 blt $t2, 9, L6
 add $t2, $zero, $zero
 j L7
@@ -180,15 +180,15 @@ L2:
 li $t3, 0
 move $t0, $t3
 L3:
-move $t3, null
-blt $t3, null, L8
+move $t3, $t0
+blt $t3, $t0, L8
 add $t3, $zero, $zero
 j L9
 L8:
 addi $t3, $zero, 1
 L9:
 beq $t3, $zero, L4
-move $t4, null
+move $t4, $t0
 addi $t4, $t4, 1
 move $t5, $t4
 move $t0, $t5
