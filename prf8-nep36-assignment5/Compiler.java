@@ -58,19 +58,18 @@ public class Compiler {
                 //program.accept(new IRVisitor());
                 IRVisitor IRVisit = new IRVisitor(symbolTable);
                 IRVisit.visit(program);
-                //System.out.println("Three Address Code: ");
-                //program.accept(IRVisit);
+                ////System.out.println("Three Address Code: "); //program.accept(IRVisit);
                 /*for(int i = 0; i < ((IRVisitor)IRVisit).IR.size(); i++)
-                    System.out.println(((IRVisitor)IRVisit).IR.get(i));
+                    //System.out.println(((IRVisitor)IRVisit).IR.get(i));
                 ((IRVisitor)IRVisit).reset();*/
                 
                 List<Quadruple> IRList = IRVisit.getIR();
-                System.out.println("IR: " + IRList);
+                //System.out.println("IR: " + IRList);
 
                 Hashtable<Quadruple, List<Label>> labels = IRVisit.getLabels();
-                System.out.println("Initial labels: " + labels);
-                System.out.println();
-                System.out.println();
+                //System.out.println("Initial labels: " + labels);
+                //System.out.println();
+                //System.out.println();
                 HashMap<String, String> workList = IRVisit.getWorkList();
                 
                 //Temporary reg allocation
@@ -103,8 +102,10 @@ public class Compiler {
                 //Allocate Registers - Not complete (Inteferences are buggy and no coloring/allocation yet)
                 AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList, labels);
                 List<List<Node>> func = asmFG.buildCFG();
+
                 System.out.println(func);
                 /*for (int i = 0; i < func.size(); i++)
+                for (int i = 0; i < func.size(); i++)
                 {
                     Liveness liv = new Liveness(func.get(i));
                     liv.calculateLive();

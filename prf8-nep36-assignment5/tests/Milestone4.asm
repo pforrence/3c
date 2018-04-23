@@ -43,7 +43,11 @@ sw $t9, 8($sp)
 sw $v0, 4($sp)
 sw $v1, 0($sp)
 li $a0, 0
+<<<<<<< HEAD
+move $a1, $t0
+=======
 move $a1, $t1
+>>>>>>> eecddb153460c00ff75476d965db493ce1f3bd7c
 jal L1
 lw $t9, 8($sp)
 lw $t8, 12($sp)

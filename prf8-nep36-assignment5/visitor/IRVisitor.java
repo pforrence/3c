@@ -45,7 +45,9 @@ public class IRVisitor implements Visitor {
     //Helper function to add a new Label to a certain IR
     public String addLabel(Quadruple q, boolean printBefore)
     {
-        //System.out.println("oh yeah called1");
+
+        ////System.out.println("oh yeah called1");
+
         List<Label> temp = labels.get(q);
         
         if(temp == null)
@@ -54,9 +56,9 @@ public class IRVisitor implements Visitor {
         }
         
         Label l = new Label(printBefore);
-        System.out.println(temp);
-        System.out.println(q);
-        System.out.println(l);
+        //System.out.println(temp);
+        //System.out.println(q);
+        //System.out.println(l);
 
         temp.add(l);
         labels.put(q, temp);
@@ -66,7 +68,7 @@ public class IRVisitor implements Visitor {
     
     public String addLabel(Quadruple q, Label l)
     {
-        System.out.println("oh yeah called2");
+        ////System.out.println("oh yeah called2");
 
         List<Label> temp = labels.get(q);
         
@@ -99,7 +101,7 @@ public class IRVisitor implements Visitor {
   public void visit(Program n) {
     n.m.accept(this);
     for ( int i = 0; i < n.cl.size(); i++ ) {
-        System.out.println();
+        //System.out.println();
         n.cl.elementAt(i).accept(this);
     }
   }
@@ -113,7 +115,7 @@ public class IRVisitor implements Visitor {
 
     //System.out.print("class ");
     n.i1.accept(this); //classname
-    //System.out.println(" {");
+    ////System.out.println(" {");
     LabelQuad label1 = new LabelQuad((Object)"main");
     IR.add(label1);
     Label L1 = new Label(true);
@@ -122,11 +124,11 @@ public class IRVisitor implements Visitor {
     //System.out.print("param ");
     n.i2.accept(this); //argument list name (String [] il2)
 
-    // System.out.println(") {");
+    // //System.out.println(") {");
     // System.out.print("    ");
     n.s.accept(this); //statment list.
-    //System.out.println("  }");
-    // System.out.println("}");
+    ////System.out.println("  }");
+    // //System.out.println("}");
     //IR.add(new MainQuad(n.i1.toString()));
     symtable = symtable.exitScope();
     symtable = symtable.exitScope();
@@ -145,18 +147,18 @@ public class IRVisitor implements Visitor {
 
     //System.out.print("class ");
     n.i.accept(this);
-    //System.out.println(" { ");
+    ////System.out.println(" { ");
     for ( int i = 0; i < n.vl.size(); i++ ) {
         //System.out.print("  ");
         n.vl.elementAt(i).accept(this);
-        if ( i+1 < n.vl.size() ) { /*System.out.println();*/ }
+        if ( i+1 < n.vl.size() ) { /*//System.out.println();*/ }
     }
     for ( int i = 0; i < n.ml.size(); i++ ) {
-        //System.out.println();
+        ////System.out.println();
         n.ml.elementAt(i).accept(this);
     }
-    //System.out.println();
-    //System.out.println("}");
+    ////System.out.println();
+    ////System.out.println("}");
     symtable = symtable.exitScope();
 
   }
@@ -170,20 +172,20 @@ public class IRVisitor implements Visitor {
 
     // System.out.print("class ");
     n.i.accept(this);
-    // System.out.println(" extends ");
+    // //System.out.println(" extends ");
     n.j.accept(this);
-    // System.out.println(" { ");
+    // //System.out.println(" { ");
     for ( int i = 0; i < n.vl.size(); i++ ) {
         // System.out.print("  ");
         n.vl.elementAt(i).accept(this);
-        if ( i+1 < n.vl.size() ) { /*System.out.println();*/ }
+        if ( i+1 < n.vl.size() ) { /*//System.out.println();*/ }
     }
     for ( int i = 0; i < n.ml.size(); i++ ) {
-        // System.out.println();
+        // //System.out.println();
         n.ml.elementAt(i).accept(this);
     }
-    // System.out.println();
-    //System.out.println("}");
+    // //System.out.println();
+    ////System.out.println("}");
     symtable = symtable.exitScope();
 
   }
@@ -219,17 +221,17 @@ public class IRVisitor implements Visitor {
           //System.out.print(", "); 
         }
     }
-    //System.out.println(") { ");
+    ////System.out.println(") { ");
     for ( int i = 0; i < n.vl.size(); i++ ) {
         //System.out.print("    ");
         n.vl.elementAt(i).accept(this);
-        //System.out.println("");
+        ////System.out.println("");
     }
     for ( int i = 0; i < n.sl.size(); i++ ) {
         //System.out.print("    ");
         n.sl.elementAt(i).accept(this);
         if ( i < n.sl.size() ) { 
-          //System.out.println(""); 
+          ////System.out.println(""); 
         }
     }
     //System.out.print("    return ");
@@ -237,9 +239,10 @@ public class IRVisitor implements Visitor {
     n.e.accept(this);
 
     IR.add(new ReturnQuad(n.e.getVar()));
+    System.out.println("return var: " + n.e.getVar().getRegister());
     workList.put(n.i.toString(), addLabel(IR.get(IR.size()-1), true));
 
-    // System.out.println(";");
+    // //System.out.println(";");
     // System.out.print("  }");
     symtable = symtable.exitScope();
   }
@@ -326,7 +329,7 @@ public class IRVisitor implements Visitor {
 
   // Exp e;
   public void visit(Print n) {
-    //System.out.print("System.out.println(");
+    //System.out.print("//System.out.println(");
     n.e.accept(this);
     //System.out.print(");");
     IR.add(new ParamQuad(n.e.getVar()));

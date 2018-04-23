@@ -1383,8 +1383,8 @@ public class CodeGeneration
             //function = (String)(IRVisit.getWorkList()).get(tempor);
             
             //Handle System.exit (no need to worry about params nor registers)
-            System.out.println("labels: " + function);
-            System.out.println("index: " + index);
+            ////System.out.println("labels: " + function);
+            ////System.out.println("index: " + index);
             if(function.equals("_system_exit"))
             {
                 String temp = "jal " + function + "\n";
@@ -1433,7 +1433,8 @@ public class CodeGeneration
             }
             
             int paramIndex = index - paramCount;
-            
+            System.out.println("paramCount: "+paramCount);
+
             for(int i = 0; i < paramCount; i++)
             {
                 ParamQuad param = (ParamQuad)IRList.get(paramIndex+i);
@@ -1441,12 +1442,15 @@ public class CodeGeneration
                 
 
                 Variable arg1 = (Variable)param.getArg1();
-                System.out.println("param: "+ arg1);
-                System.out.println("type: "+ arg1.getType());
+                ////System.out.println("param: "+ arg1);
+                ////System.out.println("type: "+ arg1.getType());
 
                 if(arg1.getType().equals("constant"))
                 {
                     temp = "li " + reg + ", " + arg1.getName() + "\n";
+                    System.out.println(reg);
+                    System.out.println(arg1.getRegister());
+
                 }
                 else if(arg1.getType().equals("temp"))
                 {
@@ -1457,7 +1461,7 @@ public class CodeGeneration
                     if(arg1.getOffset() == -1)
                     {
                         //Since are overwriting $aX registers, we need to get their old value off the stack if needed
-                        System.out.println("variable: "+ arg1);
+                        ////System.out.println("variable: "+ arg1);
                         if(arg1.getName().equals("this"))
                         {
                             temp = "lw " + reg + ", 60($sp)\n";
@@ -1493,11 +1497,13 @@ public class CodeGeneration
                 }
                 
                 bw.write(temp, 0, temp.length());
+                System.out.println("end: "+ arg1.getRegister());
+
             }
             
             //Jump to the function
             function = (String)(IRVisit.getWorkList()).get(function);
-            System.out.println("function: " +function);
+            ////System.out.println("function: " +function);
             if(function==null) {
                 function = (String)instruction.getOp();
             }
@@ -1528,7 +1534,7 @@ public class CodeGeneration
             if(!function.equals("_system_out_println"))  //println is the only 'void' function in minijava
             {
                 Variable result = (Variable)instruction.getResult();
-                System.out.println("result: "+result);
+                ////System.out.println("result: "+result);
                 if(result.getType().equals("temp"))
                 {
                     temp = "move " + allocator.allocateReg(result.getName()) + ", $v0\n";
@@ -1560,6 +1566,7 @@ public class CodeGeneration
             bw.write(temp, 0, temp.length());
             temp = "addi $sp, $sp, 100\n";    //Cleanup space on stack from all saved reg
             bw.write(temp, 0, temp.length());
+
         }
         catch (IOException e)
         {
