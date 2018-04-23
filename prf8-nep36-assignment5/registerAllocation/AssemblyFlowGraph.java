@@ -39,7 +39,7 @@ public class AssemblyFlowGraph{
             
             
             if(isNewFunction){
-                System.out.println("here");
+                ////System.out.println("here");
                 isNewFunction = false;
                 //add the actual CFG (actual function) in the List of Lists
                 func.add(auxList);
@@ -72,26 +72,26 @@ public class AssemblyFlowGraph{
                 }
                 else{
                     List<String> strAux = n.nextLabel();
-                    //System.out.println("n: " + n);
-                    //System.out.println("strAux: "+strAux);
-                    System.out.println("strAux.size() : "+strAux.size());
-                    System.out.println("strAux: "+strAux);
+                    ////System.out.println("n: " + n);
+                    ////System.out.println("strAux: "+strAux);
+                    ////System.out.println("strAux.size() : "+strAux.size());
+                    ////System.out.println("strAux: "+strAux);
 
                     for (int j = 0; j < strAux.size(); j++) {
-                        //System.out.println("j: "+ j);
+                        ////System.out.println("j: "+ j);
                         if( (strAux.get(j)).equals("next")){
                             Node aux = graph.get(i+1);
                             n.addNext(aux);
                         }
                         else{
-                            //System.out.println("here");
+                            ////System.out.println("here");
 
-                            System.out.println("get:" + strAux.get(j));
-                            System.out.println("LabelNode:" + labelNode);
+                            ////System.out.println("get:" + strAux.get(j));
+                            ////System.out.println("LabelNode:" + labelNode);
                             String a = "L" + j;
-                            System.out.println("give it a shot: "+labelNode.get(a));
+                            ////System.out.println("give it a shot: "+labelNode.get(a));
                             int numLabel = labelNode.get(a);
-                            //System.out.println("here");
+                            ////System.out.println("here");
                             n.addNext(graph.get(numLabel));
                         }
                         
@@ -104,26 +104,26 @@ public class AssemblyFlowGraph{
         return func;
     }
     public void buildNodes(){
-        //System.out.println("beginning: " + labelNode);
+        ////System.out.println("beginning: " + labelNode);
 
         Node n = null;
         Node aux = null;
-        //System.out.println("instr.size(): " + instr.size());
+        ////System.out.println("instr.size(): " + instr.size());
 
         for (int i = 0; i < instr.size(); i++) {
             Quadruple q = instr.get(i);
-            //System.out.println("q: "+q);
+            ////System.out.println("q: "+q);
 
-            //System.out.println("labels: "+labels);
+            ////System.out.println("labels: "+labels);
 
             List<Label> labelList = labels.get(q);
-            //System.out.println("labelList: "+labelList);
+            ////System.out.println("labelList: "+labelList);
 
             //first node
             n = new Node(q,i);
 
             if(labelList!=null){
-                //System.out.println("me");
+                ////System.out.println("me");
                 for (Label l : labelList) {
                     if(l.printBefore){
                         //save label and its number
@@ -137,7 +137,7 @@ public class AssemblyFlowGraph{
                 
             }
             else
-                //System.out.println("hesdfre");
+                ////System.out.println("hesdfre");
 
             
             if(q instanceof UAssignmentQuad){
@@ -150,14 +150,14 @@ public class AssemblyFlowGraph{
                 }
             }
             if(q instanceof CondJumpQuad ){
-                String nameLabel = ((Label)q.getResult()).getName();
+                String nameLabel = ((Label)q.getArg1()).getName();
                 //iffalse
                 n.addJumpTo(nameLabel);
                 //if true
                 n.addJumpTo("next");
             }
             if(q instanceof UCondJumpQuad){
-                String nameLabel = ((Label)q.getResult()).getName();
+                String nameLabel = ((Label)q.getOp()).getName();
                 
                 n.addJumpTo(nameLabel);
             }
@@ -178,23 +178,23 @@ public class AssemblyFlowGraph{
             }
             graph.add(n);
         }
-        //System.out.println("end: " + labelNode);
+        ////System.out.println("end: " + labelNode);
 
     }
     public void printGraph(List<Node> graph){
-        System.out.println("New Function");
+        //System.out.println("New Function");
         for (int i = 0; i < graph.size(); i++) {
             
             Node n = graph.get(i);
             System.out.print(n.getNum()+ " ");
-            System.out.println(n.getInstr().toString());
+            //System.out.println(n.getInstr().toString());
             List<Node> listN = n.nextNode();
             if(listN.size()!=0){
                 
-                System.out.println("Nexts:");
+                //System.out.println("Nexts:");
                 for (int j = 0; j < listN.size(); j++) {
                     System.out.print(listN.get(j).getNum()+ " ");
-                    System.out.println(listN.get(j).getInstr().toString());
+                    //System.out.println(listN.get(j).getInstr().toString());
                     
                 }
             }

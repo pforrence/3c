@@ -74,6 +74,7 @@ public class MethodSymbolTable extends BlockSymbolTable implements Scope
         {
             Variable v = vars.get(keys.get(i));
             v.setRegister(allocator.allocateReg());
+            System.out.println("assign reg: "+ v);
         }
     }
     

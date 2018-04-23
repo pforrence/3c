@@ -128,7 +128,7 @@ lw $ra, 96($sp)
 addi $sp, $sp, 100
 jal _system_exit
 L1:
-move $v0, null
+move $v0, $a0
 jr $ra
 # main is testing the functions I've provided. You will include this code at the end
 # of your output file so that you may call these system services.

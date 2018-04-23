@@ -44,7 +44,7 @@ sw $v0, 4($sp)
 sw $v1, 0($sp)
 li $a0, 0
 move $a1, $t0
-jal Start
+jal L1
 lw $t9, 8($sp)
 lw $t8, 12($sp)
 lw $t7, 16($sp)
@@ -128,7 +128,7 @@ lw $ra, 96($sp)
 addi $sp, $sp, 100
 jal _system_exit
 L1:
-move $v0, null
+move $v0, $a0
 jr $ra
 # main is testing the functions I've provided. You will include this code at the end
 # of your output file so that you may call these system services.
