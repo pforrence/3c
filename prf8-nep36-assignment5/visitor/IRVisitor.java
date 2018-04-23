@@ -45,7 +45,9 @@ public class IRVisitor implements Visitor {
     //Helper function to add a new Label to a certain IR
     public String addLabel(Quadruple q, boolean printBefore)
     {
+
         ////System.out.println("oh yeah called1");
+
         List<Label> temp = labels.get(q);
         
         if(temp == null)
@@ -191,7 +193,7 @@ public class IRVisitor implements Visitor {
   // Type t;
   // Identifier i;
   public void visit(VarDecl n) {
-    IR.add(new NewQuad(n.t.toString(), n.i.toString()));
+    //IR.add(new NewQuad(n.t.toString(), n.i.toString()));
     n.t.accept(this);
     //System.out.print(" ");
     n.i.accept(this);
@@ -341,7 +343,8 @@ public class IRVisitor implements Visitor {
     //System.out.print(" = ");
     n.e.accept(this);
     //System.out.print(";");
-    IR.add(new CopyQuad(n.i.toString(), n.e.getVar()));
+    //IR.add(new CopyQuad(n.i.toString(), n.e.getVar()));
+      IR.add(new CopyQuad(n.e.getVar(), symtable.lookupVariable(n.i.toString())));
   }
 
   // Identifier i;

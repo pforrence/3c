@@ -14,7 +14,9 @@ class Test2 {
 
         //Arbitrary straight-line code
 
-        return y;
+        int a;
+        a = 0;
+        return a;
 
     }
 }
