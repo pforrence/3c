@@ -150,14 +150,15 @@ public class AssemblyFlowGraph{
                 }
             }
             if(q instanceof CondJumpQuad ){
-                String nameLabel = ((Label)q.getResult()).getName();
+                //System.out.println("label: " + q.getArg1());
+                String nameLabel = ((Label)q.getArg1()).getName();
                 //iffalse
                 n.addJumpTo(nameLabel);
                 //if true
                 n.addJumpTo("next");
             }
             if(q instanceof UCondJumpQuad){
-                String nameLabel = ((Label)q.getResult()).getName();
+                String nameLabel = ((Label)q.getOp()).getName();
                 
                 n.addJumpTo(nameLabel);
             }

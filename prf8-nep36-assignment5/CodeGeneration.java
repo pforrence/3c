@@ -899,8 +899,8 @@ public class CodeGeneration
     {
         try
         {
-            String label = ((Label)instruction.getResult()).getName();
-            Variable arg1 = (Variable)instruction.getArg1();
+            String label = ((Label)instruction.getArg1()).getName();
+            Variable arg1 = (Variable)instruction.getOp();
             String temp;
             
             //Handle arg1 -- Store the first parameter in the result register
@@ -942,7 +942,7 @@ public class CodeGeneration
     {
         try
         {
-            String label = ((Label)instruction.getResult()).getName();
+            String label = ((Label)instruction.getOp()).getName();
             
             String temp = "j " + label + "\n";
             

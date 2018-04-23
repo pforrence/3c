@@ -104,14 +104,14 @@ public class Compiler {
                 AssemblyFlowGraph asmFG = new AssemblyFlowGraph(IRList, labels);
                 List<List<Node>> func = asmFG.buildCFG();
                 System.out.println(func);
-                for (int i = 0; i < func.size(); i++)
+                /*for (int i = 0; i < func.size(); i++)
                 {
                     Liveness liv = new Liveness(func.get(i));
                     liv.calculateLive();
                     List<BitSet> liveOut = liv.getLiveOut();
                     InterferenceGraph iG = new InterferenceGraph(func.get(i),liveOut, liv.getAllVariables());
                     //iG.buildInterferenceGraph();
-                }
+                }*/
                 
                 //Create output file
                 String fileName = args[0].substring(0, args[0].lastIndexOf(".")) + ".asm";
