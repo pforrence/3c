@@ -1118,7 +1118,8 @@ public class CodeGeneration
             {
                 if(arg1.getOffset() == -1)
                 {
-                    System.out.println("ME");
+                    if (arg1.getRegister() == null)
+                        arg1.setRegister("$a0");
                     temp = "move $v0, " + arg1.getRegister() + "\n";
                 }
                 else //Class variable
